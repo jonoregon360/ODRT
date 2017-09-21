@@ -12,14 +12,10 @@ class Tools:
 			addNum += 1
 		return filename + ext
 
-	def changeObjName(self, name, root, illegalChars, oneDrivePath):
+	def changeObjName(self, name, root, illegalChars, oneDrivePath, logFile):
 		badStart = '[ .]'
 	
-		#begin logging
-		logFile = open(oneDrivePath + '\\OneDrive Rename Log.txt', 'a+')
-		logFile.write('\nScript running at ' + str(datetime.datetime.now()))
-		logFile.write('\nSync file located at ' + oneDrivePath)
-		
+
 		#removes illegal characters from filename, uses global var
 		newFileName = name.replace('&', 'and')
 		newFileName = re.sub(illegalChars, ' ', newFileName)
@@ -44,10 +40,8 @@ class Tools:
 		#change file name operation
 		try:
 			os.rename(os.path.join(root, name), os.path.join(root, newFileName))
-			logFile.write('\nChanged ' + name + ' to ' + newFileName + ' at ' + root) 
+			logFile.write('\nChanged ' + name.encode('utf8') + ' to ' + newFileName.encode('utf8') + ' at ' + root.encode('utf8')) 
 		except:
-			logFile.write('\nCould not change name of file ' + os.path.join(root, name))
+			logFile.write('\nCould not change name of file ' + os.path.join(root.encode('utf8'), name.encode('utf8')))
 		
-		#End logging
-		logFile.write('\nScript completed at ' + str(datetime.datetime.now()))    
-		logFile.close()
+		
